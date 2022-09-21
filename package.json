@@ -1,0 +1,29 @@
+{
+  "name": "alkemy-challenge-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxigleriano/alkemy-challenge-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxigleriano/alkemy-challenge-node/issues"
+  },
+  "homepage": "https://github.com/maxigleriano/alkemy-challenge-node#readme",
+  "dependencies": {
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
