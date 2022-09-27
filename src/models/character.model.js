@@ -3,7 +3,10 @@ const sequelize = require('../db/db');
 
 class Character extends Model {}
 Character.init({
-    name: DataTypes.STRING,
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     image: DataTypes.STRING,
     age: DataTypes.INTEGER,
     weight: DataTypes.FLOAT,
