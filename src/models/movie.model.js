@@ -3,10 +3,19 @@ const sequelize = require('../db/db');
 
 class Movie extends Model {}
 Movie.init({
-    title: DataTypes.STRING,
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     image: DataTypes.STRING,
     release_date: DataTypes.DATE,
-    score: DataTypes.INTEGER
+    score: {
+        type: DataTypes.INTEGER,
+        validate: {
+            min: 1,
+            max: 5
+        }
+    },
 }, {
     sequelize,
     modelName: 'movie'
