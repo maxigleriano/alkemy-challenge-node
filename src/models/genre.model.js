@@ -3,7 +3,10 @@ const sequelize = require('../db/db');
 
 class Genre extends Model{}
 Genre.init({
-    name: DataTypes.STRING,
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     image: DataTypes.STRING
 }, {
     sequelize,

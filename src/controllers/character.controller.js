@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const Character = require('../models/character.model');
+const Movie = require("../models/movie.model");
 
 const create = (req, res) => {
     Character.create({
@@ -16,12 +17,13 @@ const create = (req, res) => {
 };
 
 const getAll = (req, res) => {
-    const { name, age, weight } = req.query;
+    const { name, age, weight, movies } = req.query;
     const queryObject = {};
 
     if(name) queryObject.name = { [Op.substring]: name };
     if(age) queryObject.age = { [Op.eq]: age};
     if(weight) queryObject.weight = { [Op.eq]: weight };
+    // TODO buscar por peliculas
 
     console.log(queryObject); 
 
@@ -42,7 +44,15 @@ const getAll = (req, res) => {
 const getById = (req, res) => {
     const id = req.params.id;
 
-    Character.findByPk(id).then( (character) => {
+    Character.findByPk(id, {
+        include: {
+            model: Movie,
+            attributes: [ 'id', 'title'],
+            through: {
+                attributes: []
+            }
+        }
+    }).then( (character) => {
         if(character !== null) {
             res.status(200).json(character);
         } else {

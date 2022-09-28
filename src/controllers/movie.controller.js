@@ -1,5 +1,7 @@
 const { Op } = require("sequelize");
 const Movie = require('../models/movie.model');
+const Character = require('../models/character.model');
+const Genre = require('../models/genre.model');
 
 const create = (req, res) => {
     Movie.create({
@@ -20,19 +22,20 @@ const getAll = (req, res) => {
     let orderQuery;
 
     if(name) queryObject.title = { [Op.substring]: name };
-    if(genre) queryObject.genre = { [Op.eq]: genre};
     if(order == 'ASC') {
-        orderQuery = order;
+        orderQuery = ['release_date', order];
+    } else if(order == 'DESC') {
+        orderQuery = ['release_date', order];
     } else {
-        orderQuery = 'DESC';
+        orderQuery = ['createdAt', 'DESC'];
     }
 
-    console.log(orderQuery);
+    // TODO buscar por genero
 
     Movie.findAll({
         where: queryObject,
         attributes: [ 'id', 'title', 'image', 'release_date' ],
-        order: [['release_date', orderQuery]]
+        order: [orderQuery]
     }).then( (movies) => {
         if(movies.length > 0) {
             res.status(200).json(movies);
@@ -47,7 +50,23 @@ const getAll = (req, res) => {
 const getById = (req, res) => {
     const id = req.params.id;
 
-    Movie.findByPk(id).then( (movie) => {
+    Movie.findByPk(id, {
+        include: [
+            {
+                model: Character,
+                attributes: [ 'id', 'name' ],
+                through: {
+                    attributes: []
+                }
+            },
+            {
+                model: Genre,
+                attributes: [ 'id', 'name' ],
+                through: {
+                    attributes: []
+                }
+        }]
+    }).then( (movie) => {
         if(movie !== null) {
             res.status(200).json(movie);
         } else {
